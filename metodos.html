@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metodos</title>
+</head>
+<body>
+
+    <main id='app'>
+        <h1>Calculadora</h1>
+
+        <input type="number" v-model="v1" placeholder="Valor 1" @keyup="operacion">
+        <input type="number" v-model="v2" placeholder="Valor 2" @keyup="operacion">
+        <input type="radio" v-model="ope" value="suma"> Suma
+        <input type="radio" v-model="ope" value="resta"> Resta
+        <input type="radio" v-model="ope" value="multi"> Multiplicación
+        <input type="radio" v-model="ope" value="div"> División
+        <br>
+        <button v-on:click="operacion">Calcular</button>
+        <label for="">{{res}}</label>
+        <br>
+        <button @click="saludo('Hola como estas?')">Saludo</button>
+        <input type="text" @keyup="saludo(dato)" v-model="dato" placeholder="Evento pulsar cada tecla">
+        <input type="text" @keyup.left="saludo(dato)" placeholder="Evento con tecla Left">
+        <!-- enter, tab, delete, esc, space, left, up, down, right -->
+        <input type="text" @keyup.alt.13="saludo(dato)" v-model="dato" placeholder="Evento con comnbinación">
+        <!-- crtl, alt, shift, meta (command Mac o tecla Windows)-->
+
+        <br>
+        <br>
+
+        <h1>TodoList</h1>
+        <!-- @submit.prevent evita la acción por defecto de submit (recargar la pagina) y solo llama a nuestro metodo-->
+        <form @submit.prevent="agregarPersonas">
+            <input type="text" name="" id="" v-model="persona">
+            <input type="submit" value="Agregar" >
+        </form>
+
+        <br>
+
+        <ul>
+            <li v-for="per in personas">{{per}}</li>
+
+        </ul>
+
+    </main>
+    
+    <script src='https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js'></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                v1: 0,
+                v2: 0,
+                res: 0,
+                ope: 'suma',
+                dato: '',
+                personas: [
+                    'Maria',
+                    'José',
+                    'Luís'
+                ],
+                persona: '',
+            },
+            methods: {
+                operacion: function(){
+                    switch(this.ope){
+                        case 'suma':
+                            this.res = parseInt(this.v1) + parseInt(this.v2);
+                            break;
+                         case 'resta':
+                            this.res = this.v1 - this.v2;
+                            break;
+                        case 'multi':
+                            this.res = this.v1 * this.v2;
+                            break;
+                         case 'div':
+                            this.res = this.v1 / this.v2;
+                            break;
+                    }
+                },
+                saludo: function(mensaje){
+                    alert(mensaje);
+                    /*
+                    if(event){
+                        alert('evento ejecutado');
+                    }
+                    */
+                },
+                agregarPersonas: function(){
+                    if(!this.persona == ''){
+                        this.personas.push(this.persona); //pone al final del array o pila
+                        //this.personas.unshift(this.persona); //pone al principio
+                        this.persona = '';
+                    }
+                    
+                }
+            },
+        })
+
+    </script>
+
+</body>
+</html>
